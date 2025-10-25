@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oasis - Price Prediction Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-900 text-white">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <header class="mb-12">
+            <h1 class="text-4xl font-bold text-center mb-2">Oasis</h1>
+            <p class="text-xl text-center text-gray-400">Stock & Cryptocurrency Price Prediction</p>
+        </header>
+
+        <!-- Main Dashboard -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Left Column - Controls -->
+            <div class="lg:col-span-1 space-y-8">
+                <!-- Symbol Selector -->
+                <div class="bg-gray-800 rounded-lg p-6 shadow-lg">
+                    <h2 class="text-2xl font-bold mb-4">Symbol Selector</h2>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Asset Type</label>
+                            <div class="flex space-x-2">
+                                <button class="flex-1 bg-blue-600 hover:bg-blue-700 py-2 px-4 rounded-lg transition">Stock</button>
+                                <button class="flex-1 bg-gray-700 hover:bg-gray-600 py-2 px-4 rounded-lg transition">Crypto</button>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Select Symbol</label>
+                            <select class="w-full bg-gray-700 border border-gray-600 rounded-lg py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option>TSLA - Tesla</option>
+                                <option>AAPL - Apple</option>
+                                <option>GOOGL - Google</option>
+                                <option>BTC-USD - Bitcoin</option>
+                                <option>ETH-USD - Ethereum</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Time Range Selector -->
+                <div class="bg-gray-800 rounded-lg p-6 shadow-lg">
+                    <h2 class="text-2xl font-bold mb-4">Time Range</h2>
+                    <div class="grid grid-cols-3 gap-2">
+                        <button class="bg-gray-700 hover:bg-gray-600 py-2 px-4 rounded-lg transition">1W</button>
+                        <button class="bg-blue-600 hover:bg-blue-700 py-2 px-4 rounded-lg transition">1M</button>
+                        <button class="bg-gray-700 hover:bg-gray-600 py-2 px-4 rounded-lg transition">3M</button>
+                        <button class="bg-gray-700 hover:bg-gray-600 py-2 px-4 rounded-lg transition">6M</button>
+                        <button class="bg-gray-700 hover:bg-gray-600 py-2 px-4 rounded-lg transition">1Y</button>
+                        <button class="bg-gray-700 hover:bg-gray-600 py-2 px-4 rounded-lg transition">All</button>
+                    </div>
+                </div>
+
+                <!-- Model Health Panel -->
+                <div class="bg-gray-800 rounded-lg p-6 shadow-lg">
+                    <h2 class="text-2xl font-bold mb-4">Model Health</h2>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center">
+                            <span>Accuracy</span>
+                            <span class="font-mono">87.5%</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span>RMSE</span>
+                            <span class="font-mono">2.35</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span>MAE</span>
+                            <span class="font-mono">1.82</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span>Last Updated</span>
+                            <span class="font-mono">2025-10-25</span>
+                        </div>
+                        <button class="w-full bg-green-600 hover:bg-green-700 py-2 px-4 rounded-lg transition mt-4">
+                            <i class="fas fa-sync-alt mr-2"></i>Refresh Model
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column - Charts and Predictions -->
+            <div class="lg:col-span-2 space-y-8">
+                <!-- Live Chart -->
+                <div class="bg-gray-800 rounded-lg p-6 shadow-lg">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-2xl font-bold">Price Chart</h2>
+                        <div class="text-right">
+                            <div class="text-2xl font-bold">$256.42</div>
+                            <div class="text-green-500">+2.3% <i class="fas fa-arrow-up"></i></div>
+                        </div>
+                    </div>
+                    <div class="h-80">
+                        <canvas id="priceChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Prediction Display -->
+                <div class="bg-gray-800 rounded-lg p-6 shadow-lg">
+                    <h2 class="text-2xl font-bold mb-4">Price Prediction</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-gray-700 rounded-lg p-4 text-center">
+                            <div class="text-gray-400">Next Day</div>
+                            <div class="text-2xl font-bold text-green-500">$261.25</div>
+                            <div class="text-green-500">+1.89%</div>
+                        </div>
+                        <div class="bg-gray-700 rounded-lg p-4 text-center">
+                            <div class="text-gray-400">Next Week</div>
+                            <div class="text-2xl font-bold text-green-500">$272.80</div>
+                            <div class="text-green-500">+6.4%</div>
+                        </div>
+                        <div class="bg-gray-700 rounded-lg p-4 text-center">
+                            <div class="text-gray-400">Next Month</div>
+                            <div class="text-2xl font-bold text-red-500">$245.60</div>
+                            <div class="text-red-500">-4.2%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-12 text-center text-gray-500">
+            <p>Oasis - Real-time Stock & Cryptocurrency Price Prediction</p>
+        </footer>
+    </div>
+
+    <script>
+        // Sample chart data
+        const ctx = document.getElementById('priceChart').getContext('2d');
+        const priceChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Oct 18', 'Oct 19', 'Oct 20', 'Oct 21', 'Oct 22', 'Oct 23', 'Oct 24', 'Oct 25'],
+                datasets: [{
+                    label: 'TSLA Price',
+                    data: [245.20, 248.50, 252.30, 249.80, 253.40, 255.60, 254.20, 256.42],
+                    borderColor: '#3b82f6',
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        },
+                        ticks: {
+                            color: 'rgba(255, 255, 255, 0.7)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        },
+                        ticks: {
+                            color: 'rgba(255, 255, 255, 0.7)'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
