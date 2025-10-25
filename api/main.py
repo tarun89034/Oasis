@@ -111,7 +111,7 @@ def predict_price(request: PredictionRequest):
         if predictor.data is None or predictor.data.empty:
             logger.error(f"No data available for prediction for {request.symbol}")
             raise HTTPException(status_code=500, detail="No data available for prediction")
-        current_price = predictor.data['Close'].iloc[-1]
+        current_price = float(predictor.data['Close'].iloc[-1])
         
         # Predict next day
         logger.info(f"Predicting next day price for {request.symbol}")
@@ -128,7 +128,7 @@ def predict_price(request: PredictionRequest):
         logger.info(f"Prediction completed for {request.symbol}")
         return PredictionResponse(
             symbol=request.symbol,
-            current_price=float(current_price.iloc[0]) if hasattr(current_price, 'iloc') else float(current_price),
+            current_price=current_price,
             predicted_price=float(next_day_price),
             change=float(change),
             change_percent=float(change_percent),
