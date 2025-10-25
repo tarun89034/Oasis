@@ -36,6 +36,7 @@ def test_predict_endpoint():
             print(f"Predicted price: ${data['predicted_price']:.2f}")
             print(f"Current price: ${data['current_price']:.2f}")
             print(f"Change: {data['change_percent']:.2f}%")
+            assert isinstance(data['current_price'], float)
             return True
         else:
             print(f"Error response: {response.text}")
